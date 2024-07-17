@@ -24,6 +24,8 @@ model User {
   items_created Product[]
   additional_details Profile?
   reviews Review[]
+  accessToken String?
+  refreshToken String?
   createdAt DateTime @default(now())
 }
 
