@@ -2,11 +2,13 @@ import { Router } from "express";
 import { Request, Response } from "express";
 import session from "express-session";
 import passport from "passport";
-import { isgoauthLogin } from "../middlewares/auth";
+import { isgoauthLogin, verifyJWT } from "../middlewares/auth";
+import { loginHandler, logoutHandler, sendotpHandler, signupHandler } from "../controllers/auth";
+import upload from "../utils/multerInitialise";
 
 const AuthRouter:Router = Router();
 
-AuthRouter.use("/logout", (req: Request, res: Response) => {
+AuthRouter.use("/google/logout", (req: Request, res: Response) => {
   req.session.destroy((err: any) => {
     if (err) {
       console.error(err);
@@ -39,5 +41,10 @@ AuthRouter.get("/protected", isgoauthLogin, (req: Request, res: Response) => {
 AuthRouter.get("/google/failure", (req: Request, res: Response) => {
   res.send("Something went wrong");
 });
+
+AuthRouter.post("/generate_otp",sendotpHandler);
+AuthRouter.post("/signup", upload.single("file"), signupHandler);
+AuthRouter.post("/login",loginHandler);
+AuthRouter.post("/logout",verifyJWT,logoutHandler);
 
 export default AuthRouter;

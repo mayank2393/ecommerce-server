@@ -34,7 +34,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // calling Routers
-app.use("/",RootRouter);
+app.use("/api/v1/",RootRouter);
 
 app.get("/", async (req: Request, res: Response) => {
   res.sendFile(path.join(viewsPath, "HomeView.html"));

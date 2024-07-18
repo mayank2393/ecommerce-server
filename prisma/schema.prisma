@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,11 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
   id String @id @default(cuid())
   email String @unique 
   role Roles @default(customer)
+  password String
   cart Cart[]
   orders Order[]
   wishlist Wishlist?
@@ -29,8 +23,9 @@ model User {
   createdAt DateTime @default(now())
 }
 
-model Profile{
-  user_id String @id
+model Profile {
+  p_id String @id @default(cuid())
+  user_id String @unique
   firstName String
   lastName String
   profile_picture String?
@@ -43,7 +38,7 @@ model Profile{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
 
-  user User @relation(fields: [user_id], references: [id])
+  user User @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
 model Product {
@@ -62,8 +57,8 @@ model Product {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
   
-  seller User @relation(fields: [seller_id], references: [id])
-  category Category @relation(fields: [category_id], references: [id])
+  seller User @relation(fields: [seller_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  category Category @relation(fields: [category_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
 model Category {
@@ -72,33 +67,33 @@ model Category {
   products Product[]
 }
 
-model Cart{
+model Cart {
   cart_id String @id @default(cuid())
   user_id String
   products CartProduct[]
   total_items Int
   total_amount Float
 
-  user User @relation(fields: [user_id], references: [id])
+  user User @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
 model CartProduct {
   id String @id @default(cuid())
-  cart Cart @relation(fields: [cart_id], references: [cart_id])
+  cart Cart @relation(fields: [cart_id], references: [cart_id], onUpdate: Cascade, onDelete: Cascade)
   cart_id String
-  product Product @relation(fields: [product_id], references: [id])
+  product Product @relation(fields: [product_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   product_id String
 }
 
-model Wishlist{
+model Wishlist {
   wishlist_id String @id @default(cuid())
   user_id String @unique
   products Product[] @relation("WishlistProducts")
 
-  user User @relation(fields: [user_id], references: [id])
+  user User @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
-model Order{
+model Order {
   id String @id @default(cuid())
   isDelivered Boolean @default(false)
   products OrderProduct[]
@@ -106,29 +101,29 @@ model Order{
   user_id String
   invoice Invoice?
 
-  user User @relation(fields: [user_id],references: [id])
+  user User @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
 model OrderProduct {
   id String @id @default(cuid())
-  order Order @relation(fields: [order_id], references: [id])
+  order Order @relation(fields: [order_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   order_id String
-  product Product @relation(fields: [product_id], references: [id])
+  product Product @relation(fields: [product_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   product_id String
   quantity Int
   amount Float
 }
 
-model Invoice{
+model Invoice {
   id String @id @default(cuid())
   order_id String @unique
   amount Float
   issuedAt DateTime @default(now())
 
-  order Order @relation(fields: [order_id], references: [id])
+  order Order @relation(fields: [order_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
-model Review{
+model Review {
   id String @id @default(cuid())
   product_id String
   user_id String
@@ -136,8 +131,15 @@ model Review{
   comments String
   createdAt DateTime @default(now())
 
-  product Product @relation(fields: [product_id], references: [id])
-  user User @relation(fields: [user_id], references: [id])
+  product Product @relation(fields: [product_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  user User @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+}
+
+model Otp {
+  id String @id @default(cuid())
+  email String
+  otp String
+  createdAt DateTime @default(now())
 }
 
 enum Roles {

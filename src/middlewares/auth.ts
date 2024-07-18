@@ -18,9 +18,9 @@ export const isgoauthLogin = async(req : Request , res : Response , next : NextF
 
 export const verifyJWT = async(req : Request , res : Response , next : NextFunction)=>{
     try {
-        const token = (req as AuthenticatedRequest).cookie?.accessToken || req
-          .header("Authorization")
-          ?.replace("Bearer", "");
+        const token =
+          req.cookies?.accessToken ||
+          req.header("Authorization")?.replace("Bearer", "");
         if(!token){
             return res.status(401).json({
                 success:false,
