@@ -47,7 +47,7 @@ model Product {
   product_description String
   brand_name String
   price Float
-  category_id String
+  category_name String
   product_image String
   seller_id String
   reviews Review[]
@@ -58,12 +58,12 @@ model Product {
   updatedAt DateTime @updatedAt @default(now())
   
   seller User @relation(fields: [seller_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  category Category @relation(fields: [category_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  category Category @relation(fields: [category_name], references: [category_name], onUpdate: Cascade, onDelete: Cascade)
 }
 
 model Category {
   id String @id @default(cuid())
-  category_name String
+  category_name String @unique
   products Product[]
 }
 

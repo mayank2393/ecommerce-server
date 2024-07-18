@@ -53,16 +53,15 @@ export const verifyJWT = async(req : Request , res : Response , next : NextFunct
     }
 }
 
-export const CustomerAuth = async(req : AuthenticatedRequest , res : Response , next : NextFunction)=>{
+export const CustomerAuth = async(req : Request , res : Response , next : NextFunction)=>{
     try {
-        if(req.user?.role === "customer"){
-            next();
-        }
-        else{
-            return res.status(401).json({
-                success:false,
-                message:"Unauthorized"
-            })
+        if ((req as AuthenticatedRequest).user?.role === "customer") {
+          next();
+        } else {
+          return res.status(401).json({
+            success: false,
+            message: "Unauthorized",
+          });
         }
     } catch (error) {
         return res.status(401).json({
@@ -72,16 +71,15 @@ export const CustomerAuth = async(req : AuthenticatedRequest , res : Response , 
     }
 }
 
-export const AdminAuth = async(req : AuthenticatedRequest , res : Response , next : NextFunction)=>{
+export const AdminAuth = async(req : Request , res : Response , next : NextFunction)=>{
     try {
-        if(req.user?.role === "admin"){
-            next();
-        }
-        else{
-            return res.status(401).json({
-                success:false,
-                message:"Unauthorized"
-            })
+        if ((req as AuthenticatedRequest).user?.role === "admin") {
+          next();
+        } else {
+          return res.status(401).json({
+            success: false,
+            message: "Unauthorized",
+          });
         }
     } catch (error) {
         return res.status(401).json({
@@ -91,16 +89,15 @@ export const AdminAuth = async(req : AuthenticatedRequest , res : Response , nex
     }
 }
 
-export const SellerAuth = async(req : AuthenticatedRequest , res : Response , next : NextFunction)=>{   
+export const SellerAuth = async(req : Request , res : Response , next : NextFunction)=>{   
     try {
-        if(req.user?.role === "seller"){
-            next();
-        }
-        else{
-            return res.status(401).json({
-                success:false,
-                message:"Unauthorized"
-            })
+        if ((req as AuthenticatedRequest).user?.role === "seller") {
+          next();
+        } else {
+          return res.status(401).json({
+            success: false,
+            message: "Unauthorized",
+          });
         }
     } catch (error) {
         return res.status(401).json({
