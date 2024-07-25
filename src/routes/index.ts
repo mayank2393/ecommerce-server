@@ -14,7 +14,6 @@ RootRouter.use("/customer", CustomerRouter);
 RootRouter.use("/seller",SellerRouter);
 RootRouter.use("/admin",AdminRouter);
 RootRouter.use("/product",ProductRouter);
-RootRouter.use("/cart",CartRouter);
 RootRouter.use("/category",CategoriesRouter);
 
 export default RootRouter;

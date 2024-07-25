@@ -69,7 +69,7 @@ model Category {
 
 model Cart {
   cart_id String @id @default(cuid())
-  user_id String
+  user_id String @unique
   products CartProduct[]
   total_items Int
   total_amount Float
@@ -80,7 +80,7 @@ model Cart {
 model CartProduct {
   id String @id @default(cuid())
   cart Cart @relation(fields: [cart_id], references: [cart_id], onUpdate: Cascade, onDelete: Cascade)
-  cart_id String
+  cart_id String @unique
   product Product @relation(fields: [product_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   product_id String
 }

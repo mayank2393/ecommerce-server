@@ -308,7 +308,7 @@ export const deleteProduct = async (req: Request, res: Response) => {
   }
 };
 
-export const getReviews = async (req: Request, res: Response) => {
+export const getReviews = async (req: Request, res: Response) => { 
   try {
       const product_id = req.params.id;
       if (!product_id) {
