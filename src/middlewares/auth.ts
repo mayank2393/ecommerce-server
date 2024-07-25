@@ -20,6 +20,7 @@ export const verifyJWT = async(req : Request , res : Response , next : NextFunct
     try {
         const token =
           req.cookies?.accessToken ||
+          req.cookies?.refreshToken ||
           req.header("Authorization")?.replace("Bearer", "");
         if(!token){
             return res.status(401).json({

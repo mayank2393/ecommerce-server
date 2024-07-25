@@ -13,7 +13,7 @@ export const createProduct = async (req: Request, res: Response) => {
       brand_name,
       price,
       category_name,
-      product_image,
+      product_image
     } = req.body;
 
     if (
@@ -21,8 +21,7 @@ export const createProduct = async (req: Request, res: Response) => {
       !product_description ||
       !brand_name ||
       !price ||
-      !category_name ||
-      !product_image
+      !category_name 
     ) {
       return res.status(400).json({ error: "Please provide all fields" });
     }
@@ -59,19 +58,19 @@ export const createProduct = async (req: Request, res: Response) => {
         console.error("Error uploading picture:", error); // Log the error
       }
     }
-    if (!productUrl) {
-      return res.status(400).json({
-        success: false,
-        message: "Please provide a product image",
-      });
-    }
+    // if (!productUrl) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Please provide a product image",
+    //   });
+    // }
     const product = await prisma.product.create({
       data: {
         product_name,
         product_description,
         brand_name,
         price,
-        product_image: productUrl,
+        product_image: productUrl? productUrl : "null",
         category_name: category_name,
         seller_id,
       },

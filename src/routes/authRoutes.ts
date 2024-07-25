@@ -47,4 +47,5 @@ AuthRouter.post("/signup", upload.single("file"), signupHandler);
 AuthRouter.post("/login",loginHandler);
 AuthRouter.post("/logout",verifyJWT,logoutHandler);
 
+
 export default AuthRouter;

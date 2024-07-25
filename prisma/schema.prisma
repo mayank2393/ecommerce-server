@@ -12,7 +12,7 @@ model User {
   email String @unique 
   role Roles @default(customer)
   password String
-  cart Cart[]
+  cart Cart?
   orders Order[]
   wishlist Wishlist?
   items_created Product[]
@@ -100,6 +100,7 @@ model Order {
   amount Float
   user_id String
   invoice Invoice?
+  quantity String
 
   user User @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
@@ -110,8 +111,6 @@ model OrderProduct {
   order_id String
   product Product @relation(fields: [product_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   product_id String
-  quantity Int
-  amount Float
 }
 
 model Invoice {
